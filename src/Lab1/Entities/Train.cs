@@ -10,6 +10,8 @@ public class Train
 
     public double MaximumPermissibleForce { get; private set; }
 
+    public double TravelTime { get; set; }
+
     public Train(double mass, double maximumPermissibleForce)
     {
         if (mass < 0) throw new Exception("Mass cannot be negative");
@@ -17,6 +19,7 @@ public class Train
         Mass = mass;
         MaximumPermissibleForce = maximumPermissibleForce;
         Speed = 0;
+        TravelTime = 0;
     }
 
     public void ApplyForce(double forceValue)
@@ -32,5 +35,19 @@ public class Train
     public void ResetAcceleration()
     {
         Accelaration = 0;
+    }
+
+    public void PassDistance(double lenght, int accuracy)
+    {
+        double distanseTravelled = 0;
+        while (lenght - distanseTravelled > 0)
+        {
+            double left_op = Math.Abs(Speed) * accuracy;
+            double right_op = Math.Abs(Accelaration) * accuracy * accuracy / 2;
+            distanseTravelled += left_op + right_op;
+
+            TravelTime += accuracy;
+            SpeedUp(accuracy);
+        }
     }
 }

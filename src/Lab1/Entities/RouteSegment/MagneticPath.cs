@@ -1,10 +1,18 @@
 namespace ITMO.ObjectOrientedProgramming.Lab1.Entities.RouteSegment;
 
-public class MagneticPath : PathSegment
+public class MagneticPath : IPathSegment
 {
-    public MagneticPath(double lenght, PowerModule? powerModule) : base(lenght, powerModule) { }
+    public double Length { get; init; }
 
-    public override MovementResult MoveTrain(Train train, int accuracy)
+    public PowerModule? PowerModule { get; init; }
+
+    public MagneticPath(double length, PowerModule? powerModule)
+    {
+        Length = length;
+        PowerModule = powerModule;
+    }
+
+    public MovementResult MoveTrain(Train train, int accuracy)
     {
         if (train.Speed == 0)
         {
@@ -16,16 +24,7 @@ public class MagneticPath : PathSegment
             return new MovementResult.Failure();
         }
 
-        double distanseTravelled = 0;
-        while (true)
-        {
-            TravelTime += accuracy;
-            distanseTravelled += (double)train.Speed * accuracy;
-            if (Length - distanseTravelled <= 0)
-            {
-                break;
-            }
-        }
+        train.PassDistance(Length, accuracy);
 
         return new MovementResult.Success();
     }
