@@ -12,6 +12,7 @@ public class Station : IPathSegment
 
     public Station(double length, int trainStopTime, PowerModule powerModule)
     {
+        if (length < 0) throw new Exception("length cannot be negative");
         _trainStopTime = trainStopTime;
         Length = length;
         PowerModule = powerModule;

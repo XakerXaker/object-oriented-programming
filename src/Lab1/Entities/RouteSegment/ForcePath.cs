@@ -10,6 +10,7 @@ public class ForcePath : IPathSegment
 
     public ForcePath(double length, double forceValue, PowerModule? powerModule)
     {
+        if (length < 0) throw new Exception("length cannot be negative");
         _forceValue = forceValue;
         PowerModule = powerModule;
         Length = length;

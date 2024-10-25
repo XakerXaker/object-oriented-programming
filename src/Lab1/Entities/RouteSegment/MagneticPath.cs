@@ -8,6 +8,7 @@ public class MagneticPath : IPathSegment
 
     public MagneticPath(double length, PowerModule? powerModule)
     {
+        if (length < 0) throw new Exception("length cannot be negative");
         Length = length;
         PowerModule = powerModule;
     }
