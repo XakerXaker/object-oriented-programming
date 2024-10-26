@@ -6,5 +6,5 @@ public interface IPathSegment
 
     public PowerModule? PowerModule { get; init; }
 
-    public MovementResult MoveTrain(Train train, int accuracy);
+    public MovementResult MoveTrain(Train train, Time accuracy);
 }

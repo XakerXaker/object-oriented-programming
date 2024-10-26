@@ -10,14 +10,14 @@ public class Station : IPathSegment
 
     public PowerModule? PowerModule { get; init; }
 
-    public Station(double length, int trainStopTime, PowerModule powerModule)
+    public Station(Length length, Time trainStopTime, PowerModule powerModule)
     {
-        _trainStopTime = new Time(trainStopTime);
-        Length = new Length(length);
+        _trainStopTime = trainStopTime;
+        Length = length;
         PowerModule = powerModule;
     }
 
-    public MovementResult MoveTrain(Train train, int accuracy)
+    public MovementResult MoveTrain(Train train, Time accuracy)
     {
         if (PowerModule is not null && train.Speed > PowerModule.SpeedLimit)
         {
@@ -27,6 +27,6 @@ public class Station : IPathSegment
         train.PassDistance(Length, accuracy);
         train.TravelTime.Value += _trainStopTime.Value;
 
-        return new MovementResult.Success();
+        return new MovementResult.Success(train.TravelTime);
     }
 }

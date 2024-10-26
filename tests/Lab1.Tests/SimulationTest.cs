@@ -2,7 +2,7 @@ using ITMO.ObjectOrientedProgramming.Lab1.Entities;
 using ITMO.ObjectOrientedProgramming.Lab1.Entities.RouteSegment;
 
 using ITMO.ObjectOrientedProgramming.Lab1.Models;
-
+using ITMO.ObjectOrientedProgramming.Lab1.Services;
 using Xunit;
 
 namespace Lab1.Tests;
@@ -12,194 +12,159 @@ public class SimulationTest
     [Fact]
     public void Simulate_ShouldReturnResultOfSimulation_WhenForcePathAcceleratesTrainToPermissibleRouteSpeed()
     {
-        var expectedResult = new MovementResult.Success();
-        MovementResult simulationResult = new MovementResult.Success();
-        var train = new Train(1, 1);
+        var expectedResult = new MovementResult.Success(new Time(80));
+        var accuracy = new Time(4);
+        var train = new Train(new Mass(1), 1);
         var route = new List<IPathSegment>()
         {
-            new ForcePath(2048, 1, null),
-            new MagneticPath(1000, new PowerModule(1416)),
+            new ForcePath(new Length(2048), 1, null),
+            new MagneticPath(new Length(1000), new PowerModule(1416)),
         };
+        var simulator = new Simulator(train, route, accuracy);
 
-        foreach (IPathSegment path in route)
-        {
-            if (simulationResult is MovementResult.Success)
-            {
-                simulationResult = path.MoveTrain(train, 4);
-            }
-        }
+        simulator.Simulate();
 
-        Assert.Equal(simulationResult, expectedResult);
+        Assert.Equal(simulator.SimulationResult, expectedResult);
     }
 
     [Fact]
     public void Simulate_ShouldReturnResultOfSimulation_WhenForcePathAcceleratesTrainOverRoutePermissibleRouteSpeed()
     {
         var expectedResult = new MovementResult.Failure();
-        MovementResult simulationResult = new MovementResult.Success();
-        var train = new Train(1, 1);
+        var accuracy = new Time(4);
+        var train = new Train(new Mass(1), 1);
         var route = new List<IPathSegment>()
         {
-            new ForcePath(2048, 1, null),
-            new MagneticPath(1000,  new PowerModule(63)),
+            new ForcePath(new Length(2048), 1, null),
+            new MagneticPath(new Length(1000),  new PowerModule(63)),
         };
 
-        foreach (IPathSegment path in route)
-        {
-            if (simulationResult is MovementResult.Success)
-            {
-                simulationResult = path.MoveTrain(train, 4);
-            }
-        }
+        var simulator = new Simulator(train, route, accuracy);
 
-        Assert.Equal(simulationResult, expectedResult);
+        simulator.Simulate();
+
+        Assert.Equal(simulator.SimulationResult, expectedResult);
     }
 
     [Fact]
     public void Simulate_ShouldReturnResultOfSimulation_WhenForcePathAcceleratesTrainToPermissibleRouteAndStationSpeed()
     {
-        var expectedResult = new MovementResult.Success();
-        MovementResult simulationResult = new MovementResult.Success();
-        var train = new Train(1, 1);
+        var expectedResult = new MovementResult.Success(new Time(172));
+        var accuracy = new Time(4);
+        var train = new Train(new Mass(1), 1);
         var route = new List<IPathSegment>()
         {
-            new ForcePath(2048, 1, null),
-            new MagneticPath(1000, null),
-            new Station(1000, 60, new PowerModule(10000)),
-            new MagneticPath(1000, new PowerModule(1000)),
+            new ForcePath(new Length(2048), 1, null),
+            new MagneticPath(new Length(1000), null),
+            new Station(new Length(1000), new Time(60), new PowerModule(10000)),
+            new MagneticPath(new Length(1000), new PowerModule(1000)),
         };
 
-        foreach (IPathSegment path in route)
-        {
-            if (simulationResult is MovementResult.Success)
-            {
-                simulationResult = path.MoveTrain(train, 4);
-            }
-        }
+        var simulator = new Simulator(train, route, accuracy);
 
-        Assert.Equal(simulationResult, expectedResult);
+        simulator.Simulate();
+
+        Assert.Equal(simulator.SimulationResult, expectedResult);
     }
 
     [Fact]
     public void Simulate_ShouldReturnResultOfSimulation_WhenForcePathAcceleratesTrainOverPermissibleStationSpeed()
     {
         var expectedResult = new MovementResult.Failure();
-        MovementResult simulationResult = new MovementResult.Success();
-        var train = new Train(1, 1);
+        var accuracy = new Time(4);
+        var train = new Train(new Mass(1), 1);
         var route = new List<IPathSegment>()
         {
-            new ForcePath(2048, 1, null),
-            new Station(1000, 60, new PowerModule(63)),
-            new MagneticPath(1000, new PowerModule(100000)),
+            new ForcePath(new Length(2048), 1, null),
+            new Station(new Length(1000), new Time(60), new PowerModule(63)),
+            new MagneticPath(new Length(1000), new PowerModule(100000)),
         };
 
-        foreach (IPathSegment path in route)
-        {
-            if (simulationResult is MovementResult.Success)
-            {
-                simulationResult = path.MoveTrain(train, 4);
-            }
-        }
+        var simulator = new Simulator(train, route, accuracy);
 
-        Assert.Equal(simulationResult, expectedResult);
+        simulator.Simulate();
+
+        Assert.Equal(simulator.SimulationResult, expectedResult);
     }
 
     [Fact]
     public void Simulate_ShouldReturnResultOfSimulation_WhenForcePathAcceleratesTrainToPermissibleStationSpeedButOverPermissibleRouteSpeed()
     {
         var expectedResult = new MovementResult.Failure();
-        MovementResult simulationResult = new MovementResult.Success();
-        var train = new Train(1, 1);
+        var accuracy = new Time(4);
+        var train = new Train(new Mass(1), 1);
         var route = new List<IPathSegment>()
         {
-            new ForcePath(2048, 1, null),
-            new MagneticPath(1000, null),
-            new Station(1000, 60, new PowerModule(1000000)),
-            new MagneticPath(1000, new PowerModule(10)),
+            new ForcePath(new Length(2048), 1, null),
+            new MagneticPath(new Length(1000), null),
+            new Station(new Length(1000), new Time(60), new PowerModule(1000000)),
+            new MagneticPath(new Length(1000), new PowerModule(10)),
         };
+        var simulator = new Simulator(train, route, accuracy);
 
-        foreach (IPathSegment path in route)
-        {
-            if (simulationResult is MovementResult.Success)
-            {
-                simulationResult = path.MoveTrain(train, 4);
-            }
-        }
+        simulator.Simulate();
 
-        Assert.Equal(simulationResult, expectedResult);
+        Assert.Equal(simulator.SimulationResult, expectedResult);
     }
 
     [Fact]
     public void Simulate_ShouldReturnResultOfSimulation_WhenForcePathAcceleratesTrainOverPermissibleSpeedAndSlowsDownToPermissibleSpeed()
     {
-        var expectedResult = new MovementResult.Success();
-        MovementResult simulationResult = new MovementResult.Success();
-        var train = new Train(1, 1);
+        var expectedResult = new MovementResult.Success(new Time(388));
+        var accuracy = new Time(4);
+        var train = new Train(new Mass(1), 1);
         var route = new List<IPathSegment>()
         {
-            new ForcePath(2048, 1, null),
-            new MagneticPath(1000, null),
-            new ForcePath(2048, -1, null),
-            new Station(1000, 60, new PowerModule(63)),
-            new MagneticPath(1000, null),
-            new ForcePath(2048, 1, null),
-            new MagneticPath(1000, null),
-            new ForcePath(100, -10, new PowerModule(63)),
+            new ForcePath(new Length(2048), 1, null),
+            new MagneticPath(new Length(1000), null),
+            new ForcePath(new Length(2048), -1, null),
+            new Station(new Length(1000), new Time(60), new PowerModule(63)),
+            new MagneticPath(new Length(1000), null),
+            new ForcePath(new Length(2048), 1, null),
+            new MagneticPath(new Length(1000), null),
+            new ForcePath(new Length(100), -10, new PowerModule(63)),
         };
 
-        foreach (IPathSegment path in route)
-        {
-            if (simulationResult is MovementResult.Success)
-            {
-                simulationResult = path.MoveTrain(train, 4);
-            }
-        }
+        var simulator = new Simulator(train, route, accuracy);
 
-        Assert.Equal(simulationResult, expectedResult);
+        simulator.Simulate();
+
+        Assert.Equal(simulator.SimulationResult, expectedResult);
     }
 
     [Fact]
     public void Simulate_ShouldReturnResultOfSimulation_WhenTrainStartsFromMagneticPath()
     {
         var expectedResult = new MovementResult.Failure();
-        MovementResult simulationResult = new MovementResult.Success();
-        var train = new Train(1, 1);
+        var accuracy = new Time(4);
+        var train = new Train(new Mass(1), 1);
         var route = new List<IPathSegment>()
         {
-            new MagneticPath(1000, new PowerModule(100000)),
+            new MagneticPath(new Length(1000), new PowerModule(100000)),
         };
 
-        foreach (IPathSegment path in route)
-        {
-            if (simulationResult is MovementResult.Success)
-            {
-                simulationResult = path.MoveTrain(train, 4);
-            }
-        }
+        var simulator = new Simulator(train, route, accuracy);
 
-        Assert.Equal(simulationResult, expectedResult);
+        simulator.Simulate();
+
+        Assert.Equal(simulator.SimulationResult, expectedResult);
     }
 
     [Fact]
     public void Simulate_ShouldReturnResultOfSimulation_WhenForcePathAcceleratesAndSlowsDown()
     {
         var expectedResult = new MovementResult.Failure();
-        MovementResult simulationResult = new MovementResult.Success();
-        var train = new Train(1, 1);
+        var accuracy = new Time(4);
+        var train = new Train(new Mass(1), 1);
         var route = new List<IPathSegment>()
         {
-            new ForcePath(2000, 1, null),
-            new ForcePath(2000, -2, new PowerModule(20000)),
+            new ForcePath(new Length(2000), 1, null),
+            new ForcePath(new Length(2000), -2, new PowerModule(20000)),
         };
+        var simulator = new Simulator(train, route, accuracy);
 
-        foreach (IPathSegment path in route)
-        {
-            if (simulationResult is MovementResult.Success)
-            {
-                simulationResult = path.MoveTrain(train, 4);
-            }
-        }
+        simulator.Simulate();
 
-        Assert.Equal(simulationResult, expectedResult);
+        Assert.Equal(simulator.SimulationResult, expectedResult);
     }
 }

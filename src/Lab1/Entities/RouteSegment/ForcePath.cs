@@ -8,16 +8,16 @@ public class ForcePath : IPathSegment
 
     public PowerModule? PowerModule { get; init; }
 
-    public ForcePath(double length, double forceValue, PowerModule? powerModule)
+    public ForcePath(Length length, double forceValue, PowerModule? powerModule)
     {
         _forceValue = forceValue;
         PowerModule = powerModule;
-        Length = new Length(length);
+        Length = length;
     }
 
-    public MovementResult MoveTrain(Train train, int accuracy)
+    public MovementResult MoveTrain(Train train, Time accuracy)
     {
-        if (_forceValue > train.MaximumPermissibleForce)
+        if (!train.IsForceAcceptable(_forceValue))
         {
             return new MovementResult.Failure();
         }
@@ -37,7 +37,7 @@ public class ForcePath : IPathSegment
                 return new MovementResult.Failure();
             }
 
-            return new MovementResult.Success();
+            return new MovementResult.Success(train.TravelTime);
         }
     }
 }

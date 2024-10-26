@@ -4,7 +4,7 @@ public abstract record MovementResult
 {
     private MovementResult() { }
 
-    public sealed record Success : MovementResult;
+    public sealed record Success(Time TravelTime) : MovementResult;
 
     public sealed record Failure : MovementResult;
 }

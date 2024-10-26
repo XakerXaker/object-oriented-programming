@@ -6,13 +6,13 @@ public class MagneticPath : IPathSegment
 
     public PowerModule? PowerModule { get; init; }
 
-    public MagneticPath(double length, PowerModule? powerModule)
+    public MagneticPath(Length length, PowerModule? powerModule)
     {
-        Length = new Length(length);
+        Length = length;
         PowerModule = powerModule;
     }
 
-    public MovementResult MoveTrain(Train train, int accuracy)
+    public MovementResult MoveTrain(Train train, Time accuracy)
     {
         if (train.Speed == 0)
         {
@@ -26,6 +26,6 @@ public class MagneticPath : IPathSegment
 
         train.PassDistance(Length, accuracy);
 
-        return new MovementResult.Success();
+        return new MovementResult.Success(train.TravelTime);
     }
 }
