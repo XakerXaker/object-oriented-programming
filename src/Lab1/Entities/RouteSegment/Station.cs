@@ -4,17 +4,16 @@ namespace ITMO.ObjectOrientedProgramming.Lab1.Entities.RouteSegment;
 
 public class Station : IPathSegment
 {
-    private readonly int _trainStopTime;
+    private readonly Time _trainStopTime;
 
-    public double Length { get; init; }
+    public Length Length { get; init; }
 
     public PowerModule? PowerModule { get; init; }
 
     public Station(double length, int trainStopTime, PowerModule powerModule)
     {
-        if (length < 0) throw new Exception("length cannot be negative");
-        _trainStopTime = trainStopTime;
-        Length = length;
+        _trainStopTime = new Time(trainStopTime);
+        Length = new Length(length);
         PowerModule = powerModule;
     }
 
@@ -26,7 +25,7 @@ public class Station : IPathSegment
         }
 
         train.PassDistance(Length, accuracy);
-        train.TravelTime += _trainStopTime;
+        train.TravelTime.Value += _trainStopTime.Value;
 
         return new MovementResult.Success();
     }

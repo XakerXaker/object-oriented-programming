@@ -4,16 +4,15 @@ public class ForcePath : IPathSegment
 {
     private readonly double _forceValue;
 
-    public double Length { get; init; }
+    public Length Length { get; init; }
 
     public PowerModule? PowerModule { get; init; }
 
     public ForcePath(double length, double forceValue, PowerModule? powerModule)
     {
-        if (length < 0) throw new Exception("length cannot be negative");
         _forceValue = forceValue;
         PowerModule = powerModule;
-        Length = length;
+        Length = new Length(length);
     }
 
     public MovementResult MoveTrain(Train train, int accuracy)

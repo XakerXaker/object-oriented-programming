@@ -2,14 +2,13 @@ namespace ITMO.ObjectOrientedProgramming.Lab1.Entities.RouteSegment;
 
 public class MagneticPath : IPathSegment
 {
-    public double Length { get; init; }
+    public Length Length { get; init; }
 
     public PowerModule? PowerModule { get; init; }
 
     public MagneticPath(double length, PowerModule? powerModule)
     {
-        if (length < 0) throw new Exception("length cannot be negative");
-        Length = length;
+        Length = new Length(length);
         PowerModule = powerModule;
     }
 

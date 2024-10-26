@@ -2,7 +2,7 @@ namespace ITMO.ObjectOrientedProgramming.Lab1.Entities.RouteSegment;
 
 public interface IPathSegment
 {
-    public double Length { get; init; }
+    public Length Length { get; init; }
 
     public PowerModule? PowerModule { get; init; }
 
