@@ -15,7 +15,7 @@ public class CreditSubject : ISubject
 
     public IEnumerable<MaterialForLecture> Lectures { get; set; }
 
-    public double PointsForCredit { get; private set; }
+    public double PointsForCredit { get; init; }
 
     public CreditSubject(Guid? parentId, Guid authorId, IEnumerable<Labwork> labworks, IEnumerable<MaterialForLecture> lectures, double pointsForCredit)
     {

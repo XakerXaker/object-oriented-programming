@@ -25,7 +25,7 @@ public class Labwork
 
     public string AssessmentCriteria { get; set; }
 
-    public double Point { get; set; }
+    public double Point { get; init; }
 
     public Labwork Clone()
     {
