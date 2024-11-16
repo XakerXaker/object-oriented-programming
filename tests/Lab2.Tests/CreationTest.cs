@@ -1,5 +1,9 @@
+using ITMO.ObjectOrientedProgramming.Lab2;
 using ITMO.ObjectOrientedProgramming.Lab2.LabworkModel;
+using ITMO.ObjectOrientedProgramming.Lab2.LectureModel;
+using ITMO.ObjectOrientedProgramming.Lab2.SubjectModel;
 using ITMO.ObjectOrientedProgramming.Lab2.UserModel;
+
 using Xunit;
 
 namespace Lab2.Tests;
@@ -10,38 +14,35 @@ public class CreationTest
     public void CreateSubjectWithoutTotal100Points()
     {
         var user = new User();
-        List<Labwork> labs = [];
-        var builder = new LabworkBuilder();
-        try
-        {
-            labs.Add(builder.AddAssessmentCriteria(" fg;").AddAuthor(user.Id).AddDescription("ldf").AddTitle("9585").SetPoint(100).Build());
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
+        var labworkBuilder = new LabworkBuilder();
+        Labwork lab = labworkBuilder.AddAssessmentCriteria(" fg;").AddAuthor(user.Id).AddDescription("ldf").AddTitle("9585").SetPoint(1).Build();
+        var examSubjectBuilder = new ExamSubjectBuilder();
+
+        examSubjectBuilder.AddAuthor(user.Id)
+            .AddControlPoint(10)
+            .AddLecture(new MaterialForLecture(null, user.Id, "ld", "ld", "ld"))
+            .AddLabwork(lab);
+
+        Assert.Throws<Exception>(() => examSubjectBuilder.Build());
     }
 
     [Fact]
     public void NotPermissibleChange()
     {
+        bool expectedResult = false;
         var user1 = new User();
         var builder = new LabworkBuilder();
         Labwork lab = builder.AddAssessmentCriteria(" fg;")
             .AddAuthor(user1.Id)
             .AddDescription("ldf")
             .AddTitle("9585")
-            .SetPoint(100).Build();
+            .SetPoint(100)
+            .Build();
+        var user2 = new User();
+        var update = new Updater(user2);
 
-        try
-        {
-            var user2 = new User();
-            user2.ChangeLab(lab);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
+        bool result = update.UpdateLab(lab, "test");
+        Assert.Equal(result, expectedResult);
     }
 
     [Fact]

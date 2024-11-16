@@ -1,8 +1,6 @@
-using ITMO.ObjectOrientedProgramming.Lab2.EducationalProgrammModel;
-
 namespace ITMO.ObjectOrientedProgramming.Lab2.LabworkModel;
 
-public class Labwork : IEducationalProgrammUnit
+public class Labwork
 {
     public Labwork(Guid? parentId, Guid authorId, string title, string description, string assessmentCriteria, double point)
     {
@@ -21,13 +19,13 @@ public class Labwork : IEducationalProgrammUnit
 
     public Guid AuthorId { get; init; }
 
-    public string Title { get; private set; }
+    public string Title { get; set; }
 
-    public string Description { get; private set; }
+    public string Description { get;  set; }
 
-    public string AssessmentCriteria { get; private set; }
+    public string AssessmentCriteria { get; set; }
 
-    public double Point { get; private set; }
+    public double Point { get; set; }
 
     public Labwork Clone()
     {

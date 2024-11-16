@@ -11,24 +11,24 @@ public class ExamSubject : ISubject
 
     public Guid AuthorId { get; init; }
 
-    private readonly List<Labwork> _labworks = [];
+    private readonly IEnumerable<Labwork> _labworks = [];
 
-    private readonly List<MaterialForLecture> _lectures = [];
+    public IEnumerable<MaterialForLecture> Lectures { get; set; }
 
-    public double PointsForExam { get; private set; }
+    public double PointsForExam { get; init; }
 
     public ExamSubject(Guid? parentId, Guid authorId, IEnumerable<Labwork> labworks, IEnumerable<MaterialForLecture> lectures, double pointsForExam)
     {
         ParentId = parentId;
         AuthorId = authorId;
         Id = Guid.NewGuid();
-        _labworks = labworks.ToList();
-        _lectures = lectures.ToList();
+        _labworks = labworks;
+        Lectures = lectures;
         PointsForExam = pointsForExam;
     }
 
     public ExamSubject Clone()
     {
-        return new(Id, AuthorId, _labworks, _lectures, PointsForExam);
+        return new(Id, AuthorId, _labworks, Lectures, PointsForExam);
     }
 }

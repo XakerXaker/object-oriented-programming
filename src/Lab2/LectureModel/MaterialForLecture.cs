@@ -1,8 +1,6 @@
-using ITMO.ObjectOrientedProgramming.Lab2.EducationalProgrammModel;
-
 namespace ITMO.ObjectOrientedProgramming.Lab2.LectureModel;
 
-public class MaterialForLecture : IEducationalProgrammUnit
+public class MaterialForLecture
 {
     public MaterialForLecture(Guid? parentId, Guid authorId, string title, string description, string content)
     {
@@ -20,11 +18,11 @@ public class MaterialForLecture : IEducationalProgrammUnit
 
     public Guid AuthorId { get; init; }
 
-    public string Title { get;  private set; }
+    public string Title { get;  set; }
 
-    public string Description { get; private set; }
+    public string Description { get; set; }
 
-    public string Content { get;  private set; }
+    public string Content { get; set; }
 
     public MaterialForLecture Clone()
     {

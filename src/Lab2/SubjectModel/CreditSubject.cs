@@ -13,7 +13,7 @@ public class CreditSubject : ISubject
 
     private readonly List<Labwork> _labworks = [];
 
-    private readonly List<MaterialForLecture> _lectures;
+    public IEnumerable<MaterialForLecture> Lectures { get; set; }
 
     public double PointsForCredit { get; private set; }
 
@@ -23,12 +23,12 @@ public class CreditSubject : ISubject
         Id = Guid.NewGuid();
         AuthorId = authorId;
         _labworks = labworks.ToList();
-        _lectures = lectures.ToList();
+        Lectures = lectures.ToList();
         PointsForCredit = pointsForCredit;
     }
 
     public CreditSubject Clone()
     {
-        return new(Id, AuthorId, _labworks, _lectures, PointsForCredit);
+        return new(Id, AuthorId, _labworks, Lectures, PointsForCredit);
     }
 }
