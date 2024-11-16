@@ -15,7 +15,7 @@ public class EducationalProgramRepository
     {
         foreach (EducationalProgram p in data)
         {
-            if (p == program) return p;
+            if (p.Id == program.Id) return p;
         }
 
         return null;

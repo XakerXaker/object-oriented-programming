@@ -15,7 +15,7 @@ public class LabworkRepository
     {
         foreach (Labwork l in data)
         {
-            if (l == lab) return l;
+            if (l.Id == lab.Id) return l;
         }
 
         return null;

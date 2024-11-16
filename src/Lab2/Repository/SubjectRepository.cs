@@ -15,7 +15,7 @@ public class SubjectRepository
     {
         foreach (ISubject s in data)
         {
-            if (s == subject) return s;
+            if (s.Id == subject.Id) return s;
         }
 
         return null;

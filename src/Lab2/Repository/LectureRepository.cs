@@ -15,7 +15,7 @@ public class LectureRepository
     {
         foreach (MaterialForLecture l in data)
         {
-            if (l == lecture) return l;
+            if (l.Id == lecture.Id) return l;
         }
 
         return null;

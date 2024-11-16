@@ -1,16 +1,17 @@
 using ITMO.ObjectOrientedProgramming.Lab2.SubjectModel;
+using ITMO.ObjectOrientedProgramming.Lab2.ValueObject;
 
 namespace ITMO.ObjectOrientedProgramming.Lab2.EducationalProgrammModel;
 
 public record Semester
 {
-    public uint SemesterNumber { get; init; }
-
-    public IEnumerable<ISubject> Subjects { get; private set; }
-
-    public Semester(uint semesterNumber, IEnumerable<ISubject> subjects)
+    public Semester(SemesterNumber semesterNumber, IEnumerable<ISubject> subjects)
     {
         SemesterNumber = semesterNumber;
         Subjects = subjects;
     }
+
+    public SemesterNumber SemesterNumber { get; init; }
+
+    public IEnumerable<ISubject> Subjects { get; private set; }
 }

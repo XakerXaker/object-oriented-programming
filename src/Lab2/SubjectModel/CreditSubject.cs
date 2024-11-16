@@ -1,5 +1,7 @@
 using ITMO.ObjectOrientedProgramming.Lab2.LabworkModel;
 using ITMO.ObjectOrientedProgramming.Lab2.LectureModel;
+using ITMO.ObjectOrientedProgramming.Lab2.UserModel;
+using ITMO.ObjectOrientedProgramming.Lab2.ValueObject;
 
 namespace ITMO.ObjectOrientedProgramming.Lab2.SubjectModel;
 
@@ -9,26 +11,47 @@ public class CreditSubject : ISubject
 
     public Guid Id { get; init; }
 
-    public Guid AuthorId { get; init; }
+    public Guid? AuthorId { get; init; }
 
-    private readonly List<Labwork> _labworks = [];
+    private readonly IEnumerable<Labwork> _labworks = [];
 
-    public IEnumerable<MaterialForLecture> Lectures { get; set; }
+    private IEnumerable<MaterialForLecture> _lectures;
 
-    public double PointsForCredit { get; init; }
+    public Points PointsForCredit { get; init; }
 
-    public CreditSubject(Guid? parentId, Guid authorId, IEnumerable<Labwork> labworks, IEnumerable<MaterialForLecture> lectures, double pointsForCredit)
+    public CreditSubject(Guid? parentId, Guid? authorId, IEnumerable<Labwork> labworks, IEnumerable<MaterialForLecture> lectures, Points pointsForCredit)
     {
         ParentId = parentId;
         Id = Guid.NewGuid();
         AuthorId = authorId;
-        _labworks = labworks.ToList();
-        Lectures = lectures.ToList();
+        _labworks = labworks;
+        _lectures = lectures;
         PointsForCredit = pointsForCredit;
     }
 
-    public CreditSubject Clone()
+    public CreditSubjectBuilder Clone(CreditSubjectBuilder builder)
     {
-        return new(Id, AuthorId, _labworks, Lectures, PointsForCredit);
+        return builder.AddParentId(Id)
+        .AddLabwork(_labworks)
+        .AddLecture(_lectures)
+        .AddControlPoint(PointsForCredit);
+    }
+
+    public bool CheckAccess(User user)
+    {
+        if (AuthorId == user.Id) return true;
+        return false;
+    }
+
+    public void ChangeLectures(User user, IEnumerable<MaterialForLecture> newLectures)
+    {
+        if (CheckAccess(user))
+        {
+            _lectures = newLectures;
+        }
+        else
+        {
+            throw new Exception("Access denied");
+        }
     }
 }

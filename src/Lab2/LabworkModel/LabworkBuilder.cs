@@ -1,20 +1,23 @@
+using ITMO.ObjectOrientedProgramming.Lab2.UserModel;
+using ITMO.ObjectOrientedProgramming.Lab2.ValueObject;
+
 namespace ITMO.ObjectOrientedProgramming.Lab2.LabworkModel;
 
 public class LabworkBuilder
 {
-    private Guid? _authorId;
-
+    private readonly User _user;
+    private Guid? _parentId;
     private string? _title;
 
     private string? _description;
 
     private string? _assessmentCriteria;
 
-    private double? _point;
+    private Points? _points;
 
-    public LabworkBuilder AddAuthor(Guid authorId)
+    public LabworkBuilder AddParentId(Guid? parentId)
     {
-        _authorId = authorId;
+        _parentId = parentId;
         return this;
     }
 
@@ -36,20 +39,25 @@ public class LabworkBuilder
         return this;
     }
 
-    public LabworkBuilder SetPoint(double point)
+    public LabworkBuilder SetPoints(Points points)
     {
-        _point = point;
+        _points = points;
         return this;
     }
 
     public Labwork Build()
     {
         return new Labwork(
-            null,
-            _authorId ?? throw new Exception("Invalid labwork"),
+            _parentId,
+            _user.Id,
             _title ?? throw new Exception("Invalid labwork"),
             _assessmentCriteria ?? throw new Exception("Invalid labwork"),
             _description ?? throw new Exception("Invalid Labwork"),
-            _point ?? throw new Exception("Invalid labwork"));
+            _points ?? throw new Exception("Invalid labwork"));
+    }
+
+    public LabworkBuilder(User user)
+    {
+        _user = user;
     }
 }

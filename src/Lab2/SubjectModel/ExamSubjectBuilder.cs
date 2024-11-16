@@ -1,61 +1,69 @@
 using ITMO.ObjectOrientedProgramming.Lab2.LabworkModel;
 using ITMO.ObjectOrientedProgramming.Lab2.LectureModel;
+using ITMO.ObjectOrientedProgramming.Lab2.UserModel;
+using ITMO.ObjectOrientedProgramming.Lab2.ValueObject;
 
 namespace ITMO.ObjectOrientedProgramming.Lab2.SubjectModel;
 
 public class ExamSubjectBuilder
 {
-    public Guid? ParentId { get; init; }
+    private readonly User _user;
+    private IEnumerable<Labwork> _labworks = [];
 
-    public Guid AuthorId { get; private set; }
+    private IEnumerable<MaterialForLecture> _lectures = [];
 
-    private readonly List<Labwork> _labworks = [];
+    private Guid? _parentId;
 
-    private readonly List<MaterialForLecture> _lectures = [];
-    private double _pointsForExam;
+    private Points? _pointsForExam;
 
-    public ExamSubjectBuilder AddAuthor(Guid authorId)
+    public ExamSubjectBuilder AddParentId(Guid? parentId)
     {
-        AuthorId = authorId;
+        _parentId = parentId;
         return this;
     }
 
-    public ExamSubjectBuilder AddLabwork(Labwork labwork)
+    public ExamSubjectBuilder AddLabwork(IEnumerable<Labwork> labworks)
     {
-        if (labwork is null) throw new Exception("Invalid Subject creation");
-        _labworks.Add(labwork);
+        if (labworks is null) throw new Exception("Invalid Subject creation");
+        _labworks = labworks;
         return this;
     }
 
-    public ExamSubjectBuilder AddLecture(MaterialForLecture lecture)
+    public ExamSubjectBuilder AddLecture(IEnumerable<MaterialForLecture> lectures)
     {
-        if (lecture is null) throw new Exception("Invalid Subject creation");
-        _lectures.Add(lecture);
+        if (lectures is null) throw new Exception("Invalid Subject creation");
+        _lectures = lectures;
         return this;
     }
 
-    public ExamSubjectBuilder AddControlPoint(double pointsForExam)
+    public ExamSubjectBuilder AddControlPoint(Points pointsForExam)
     {
-        if (pointsForExam <= 0) throw new Exception("Invalid Subject creation");
         _pointsForExam = pointsForExam;
         return this;
     }
 
     public ExamSubject Build()
     {
-        double totalPoints = _pointsForExam;
+        if (_pointsForExam is null) throw new Exception("Invalid Subject creation");
+
+        double totalPoints = _pointsForExam.Value;
         foreach (Labwork lab in _labworks)
         {
-            totalPoints += lab.Point;
+            totalPoints += lab.Points.Value;
         }
 
         if (totalPoints != 100) throw new Exception("Invalid Subject creation");
 
         return new ExamSubject(
-            null,
-            AuthorId,
+            _parentId,
+            _user.Id,
             _labworks,
             _lectures,
             _pointsForExam);
+    }
+
+    public ExamSubjectBuilder(User user)
+    {
+        _user = user;
     }
 }

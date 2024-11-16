@@ -1,8 +1,11 @@
+using ITMO.ObjectOrientedProgramming.Lab2.UserModel;
+
 namespace ITMO.ObjectOrientedProgramming.Lab2.LectureModel;
 
 public class MaterialForLectureBuilder
 {
-    private Guid? _authorId;
+    private readonly User _user;
+    private Guid? _parentId;
 
     private string? _title;
 
@@ -10,9 +13,9 @@ public class MaterialForLectureBuilder
 
     private string? _content;
 
-    public MaterialForLectureBuilder AddAuthor(Guid? authorId)
+    public MaterialForLectureBuilder AddParentId(Guid? parentId)
     {
-        _authorId = authorId;
+        _parentId = parentId;
         return this;
     }
 
@@ -37,10 +40,15 @@ public class MaterialForLectureBuilder
     public MaterialForLecture Build()
     {
         return new MaterialForLecture(
-            null,
-            _authorId ?? throw new Exception("Invalid material for lecture"),
+            _parentId,
+            _user.Id,
             _title ?? throw new Exception("Invalid material for lecture"),
             _description ?? throw new Exception("Invalid material for lecture"),
             _content ?? throw new Exception("Invalid material for lecture"));
+    }
+
+    public MaterialForLectureBuilder(User user)
+    {
+        _user = user;
     }
 }

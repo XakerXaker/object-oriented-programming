@@ -1,8 +1,8 @@
-using ITMO.ObjectOrientedProgramming.Lab2;
 using ITMO.ObjectOrientedProgramming.Lab2.LabworkModel;
 using ITMO.ObjectOrientedProgramming.Lab2.LectureModel;
 using ITMO.ObjectOrientedProgramming.Lab2.SubjectModel;
 using ITMO.ObjectOrientedProgramming.Lab2.UserModel;
+using ITMO.ObjectOrientedProgramming.Lab2.ValueObject;
 
 using Xunit;
 
@@ -14,14 +14,31 @@ public class CreationTest
     public void CreateSubjectWithoutTotal100Points()
     {
         var user = new User();
-        var labworkBuilder = new LabworkBuilder();
-        Labwork lab = labworkBuilder.AddAssessmentCriteria(" fg;").AddAuthor(user.Id).AddDescription("ldf").AddTitle("9585").SetPoint(1).Build();
-        var examSubjectBuilder = new ExamSubjectBuilder();
+        var labworkBuilder = new LabworkBuilder(user);
+        Labwork lab = labworkBuilder.AddAssessmentCriteria(" fg;")
+        .AddDescription("ld")
+        .AddTitle("9585")
+        .SetPoints(new Points(1))
+        .Build();
+        var labworks = new List<Labwork>
+        {
+            lab,
+        };
 
-        examSubjectBuilder.AddAuthor(user.Id)
-            .AddControlPoint(10)
-            .AddLecture(new MaterialForLecture(null, user.Id, "ld", "ld", "ld"))
-            .AddLabwork(lab);
+        var lectureBuilder = new MaterialForLectureBuilder(user);
+        MaterialForLecture lecture = lectureBuilder.AddDescription("587")
+        .AddContent("587")
+        .AddTitle("587")
+        .Build();
+        var lectures = new List<MaterialForLecture>
+        {
+            lecture,
+        };
+
+        var examSubjectBuilder = new ExamSubjectBuilder(user);
+        examSubjectBuilder.AddControlPoint(new Points(10))
+            .AddLecture(lectures)
+            .AddLabwork(labworks);
 
         Assert.Throws<Exception>(() => examSubjectBuilder.Build());
     }
@@ -29,34 +46,31 @@ public class CreationTest
     [Fact]
     public void NotPermissibleChange()
     {
-        bool expectedResult = false;
         var user1 = new User();
-        var builder = new LabworkBuilder();
+        var builder = new LabworkBuilder(user1);
         Labwork lab = builder.AddAssessmentCriteria(" fg;")
-            .AddAuthor(user1.Id)
             .AddDescription("ldf")
             .AddTitle("9585")
-            .SetPoint(100)
+            .SetPoints(new Points(100))
             .Build();
         var user2 = new User();
-        var update = new Updater(user2);
 
-        bool result = update.UpdateLab(lab, "test");
-        Assert.Equal(result, expectedResult);
+        Assert.Throws<Exception>(() => lab.ChangeDescription(user2, "892"));
     }
 
     [Fact]
     public void CompareProtypeIdAndOriginalId()
     {
-        var builder = new LabworkBuilder();
+        var user = new User();
+        var builder = new LabworkBuilder(user);
         Labwork lab1 = builder.AddAssessmentCriteria(" fg;")
-            .AddAuthor(Guid.NewGuid())
             .AddDescription("ldf")
             .AddTitle("9585")
-            .SetPoint(100).Build();
+            .SetPoints(new Points(100))
+            .Build();
 
-        Labwork lab2 = lab1.Clone();
-
+        LabworkBuilder labworkBuilder = lab1.Clone(new LabworkBuilder(user));
+        Labwork lab2 = labworkBuilder.Build();
         Assert.Equal(lab1.Id, lab2.ParentId);
     }
 }
