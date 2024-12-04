@@ -12,13 +12,9 @@ public class MessengerAddressee : IAddressee
         _messenger = messenger;
     }
 
-    public void GetMessage(Message message)
-    {
-        SendMessage(message);
-    }
-
     public void SendMessage(Message message)
     {
-        _messenger.GetMessage(message);
+        string lmessage = $"{message.Head}: {message.Body}";
+        _messenger.ReceiveMessage(lmessage);
     }
 }

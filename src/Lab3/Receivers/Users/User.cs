@@ -4,7 +4,7 @@ namespace ITMO.ObjectOrientedProgramming.Lab3.Receivers.Users;
 
 public class User
 {
-    public Dictionary<Message, bool> Messages { get; private set; } = [];
+    public Dictionary<Message, bool> Messages { get; init; } = [];
 
     public string Name { get; init; }
 
@@ -13,7 +13,7 @@ public class User
         Name = name;
     }
 
-    public void GetMessage(Message message)
+    public void ReceiveMessage(Message message)
     {
         Messages.Add(message, false);
     }

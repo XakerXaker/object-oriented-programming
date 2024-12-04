@@ -12,8 +12,9 @@ public class DisplayAddressee : IAddressee
         _display = display;
     }
 
-    public void GetMessage(Message message)
+    public void SendMessage(Message message)
     {
-        _display.ShowMessage(message);
+        string lmessage = $"{message.Head}: {message.Body}";
+        _display.ShowMessage(lmessage);
     }
 }

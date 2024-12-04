@@ -13,11 +13,11 @@ public class FilterAddressee : IAddressee
         _acceptableImportance = acceptableImportance;
     }
 
-    public void GetMessage(Message message)
+    public void SendMessage(Message message)
     {
         if (message.ImportanceLevel >= _acceptableImportance)
         {
-            _addressee.GetMessage(message);
+            _addressee.SendMessage(message);
         }
     }
 }

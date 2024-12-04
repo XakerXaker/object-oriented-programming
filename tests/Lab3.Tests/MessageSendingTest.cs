@@ -20,7 +20,7 @@ public class MessageSendingTest
         var message = new Message("head", "body", ImportanceLevel.MEDIUM);
         bool messageIsRead = false;
 
-        user.GetMessage(message);
+        user.ReceiveMessage(message);
         Assert.Equal(messageIsRead, user.Messages[message]);
     }
 
@@ -31,7 +31,7 @@ public class MessageSendingTest
         var message = new Message("head", "body", ImportanceLevel.MEDIUM);
         var readMessageOperation = new ReadMessageOperation.Success();
 
-        user.GetMessage(message);
+        user.ReceiveMessage(message);
         ReadMessageOperation markAsRead = user.MarkAsRead(message);
 
         Assert.Equal(readMessageOperation, markAsRead);
@@ -44,9 +44,9 @@ public class MessageSendingTest
         var filterAddressee = new FilterAddressee(mockAddressee.Object, ImportanceLevel.MEDIUM);
         var message = new Message("head", "body", ImportanceLevel.LOW);
 
-        filterAddressee.GetMessage(message);
+        filterAddressee.SendMessage(message);
 
-        mockAddressee.Verify(x => x.GetMessage(message), Times.Never());
+        mockAddressee.Verify(x => x.SendMessage(message), Times.Never());
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public class MessageSendingTest
         var loggerAddressee = new LoggerAddressee(addressee, mockLogger.Object);
         var message = new Message("head", "body", ImportanceLevel.LOW);
 
-        loggerAddressee.GetMessage(message);
+        loggerAddressee.SendMessage(message);
 
         mockLogger.Verify(x => x.Log($"The message with header: {message.Head} has been sent to User addressee"));
     }
@@ -69,10 +69,11 @@ public class MessageSendingTest
         var mockOutput = new Mock<IOutputStream>();
         var messenger = new Messenger(mockOutput.Object);
         var message = new Message("head", "body", ImportanceLevel.LOW);
+        var messengerAddressee = new MessengerAddressee(messenger);
 
-        messenger.GetMessage(message);
+        messengerAddressee.SendMessage(message);
 
-        mockOutput.Verify(x => x.Render($"Messenger: {message.Head} and {message.Body}"));
+        mockOutput.Verify(x => x.Render($"Messenger: {message.Head}: {message.Body}"));
     }
 
     [Fact]
@@ -84,9 +85,9 @@ public class MessageSendingTest
         var secondAddressee = new UserAddressee(user);
         var filterAddressee = new FilterAddressee(secondAddressee, ImportanceLevel.MEDIUM);
 
-        filterAddressee.GetMessage(message);
+        filterAddressee.SendMessage(message);
         bool firstSearchResult = user.Messages.ContainsKey(message);
-        firstAddressee.GetMessage(message);
+        firstAddressee.SendMessage(message);
         bool secondSearchResult = user.Messages.ContainsKey(message);
 
         Assert.False(firstSearchResult);

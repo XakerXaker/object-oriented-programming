@@ -21,7 +21,7 @@ public class Topic
     {
         foreach (IAddressee addressee in _addressees)
         {
-            addressee.GetMessage(message);
+            addressee.SendMessage(message);
         }
     }
 

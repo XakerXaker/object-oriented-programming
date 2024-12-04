@@ -12,8 +12,8 @@ public class UserAddressee : IAddressee
         _user = user;
     }
 
-    public void GetMessage(Message message)
+    public void SendMessage(Message message)
     {
-        _user.GetMessage(message);
+        _user.ReceiveMessage(message);
     }
 }

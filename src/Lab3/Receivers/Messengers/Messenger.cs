@@ -1,4 +1,3 @@
-using ITMO.ObjectOrientedProgramming.Lab3.Messages;
 using ITMO.ObjectOrientedProgramming.Lab3.Receivers.Messengers.Output;
 
 namespace ITMO.ObjectOrientedProgramming.Lab3.Receivers.Messengers;
@@ -13,9 +12,9 @@ public class Messenger
         _output = output;
     }
 
-    public void GetMessage(Message message)
+    public void ReceiveMessage(string message)
     {
-        string lmessage = $"{_prefix}: {message.Head} and {message.Body}";
+        string lmessage = $"{_prefix}: {message}";
         ShowMessage(lmessage);
     }
 

@@ -11,11 +11,11 @@ public class GroupAddressee : IAddressee
         _addressees = addressees;
     }
 
-    public void GetMessage(Message message)
+    public void SendMessage(Message message)
     {
         foreach (IAddressee addressee in _addressees)
         {
-            addressee.GetMessage(message);
+            addressee.SendMessage(message);
         }
     }
 }

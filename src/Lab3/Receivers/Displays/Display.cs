@@ -1,4 +1,3 @@
-using ITMO.ObjectOrientedProgramming.Lab3.Messages;
 using System.Drawing;
 
 namespace ITMO.ObjectOrientedProgramming.Lab3.Receivers.Displays;
@@ -13,12 +12,11 @@ public class Display
         _color = color;
     }
 
-    public void ShowMessage(Message message)
+    public void ShowMessage(string message)
     {
         _displayDriver.Clear();
         _displayDriver.SetColor(_color);
 
-        string localMessage = message.Head + '\n' + message.Body;
-        _displayDriver.WriteText(localMessage);
+        _displayDriver.WriteText(message);
     }
 }
