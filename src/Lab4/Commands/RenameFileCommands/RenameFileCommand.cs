@@ -15,7 +15,14 @@ public class RenameFileCommand : ICommand
 
     public ExecutionResult Execute(IApplicationContext context)
     {
-        context.Fs.RenameFile(_path, _name);
-        return new ExecutionResult.Success();
+        string destination = Path.GetFullPath(_path);
+
+        if (destination.StartsWith(context.ConnectionAddress))
+        {
+            context.Fs.RenameFile(destination, _name);
+            return new ExecutionResult.Success();
+        }
+
+        return new ExecutionResult.Failed("Messed with paths in Rename File command");
     }
 }

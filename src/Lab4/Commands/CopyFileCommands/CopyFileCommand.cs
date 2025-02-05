@@ -15,7 +15,16 @@ public class CopyFileCommand : ICommand
 
     public ExecutionResult Execute(IApplicationContext context)
     {
-        context.Fs.CopyFile(_source, _destination);
-        return new ExecutionResult.Success();
+        string source = Path.GetFullPath(_source);
+        string destination = Path.GetFullPath(_destination);
+
+        // определяем относительность пути, абсолютные тоже хавает
+        if (destination.StartsWith(context.ConnectionAddress) && source.StartsWith(context.ConnectionAddress))
+        {
+            context.Fs.CopyFile(_source, _destination);
+            return new ExecutionResult.Success();
+        }
+
+        return new ExecutionResult.Failed("Messed with paths in Copy File command");
     }
 }

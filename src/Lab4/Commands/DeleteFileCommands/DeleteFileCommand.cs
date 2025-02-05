@@ -13,7 +13,13 @@ public class DeleteFileCommand : ICommand
 
     public ExecutionResult Execute(IApplicationContext context)
     {
-        context.Fs.DeleteFile(_path);
-        return new ExecutionResult.Success();
+        string path = Path.GetFullPath(_path);
+        if (File.Exists(_path) && path.StartsWith(context.ConnectionAddress))
+        {
+            context.Fs.DeleteFile(_path);
+            return new ExecutionResult.Success();
+        }
+
+        return new ExecutionResult.Failed("Messed with path in Delete File command");
     }
 }

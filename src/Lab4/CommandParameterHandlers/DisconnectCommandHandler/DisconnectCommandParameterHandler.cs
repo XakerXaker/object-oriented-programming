@@ -5,7 +5,7 @@ using ITMO.ObjectOrientedProgramming.Lab4.Input;
 
 namespace ITMO.ObjectOrientedProgramming.Lab4.CommandParameterHandlers.DisconnectCommandHandler;
 
-public class DisconnectCommandHandler : CommandParameterHandler
+public class DisconnectCommandParameterHandler : CommandParameterHandler
 {
     public override ICommand? Handle(Request input)
     {

@@ -26,6 +26,11 @@ public class ConnectCommand : ICommand
             return new ExecutionResult.Failed("Connect command doesn't support this mode");
         }
 
+        if (!Path.IsPathRooted(_absolutePath))
+        {
+            return new ExecutionResult.Failed("Connect command require absolute path");
+        }
+
         context = new MyApplicationContext(_absolutePath, " ", " ");
 
         return new ExecutionResult.Success();

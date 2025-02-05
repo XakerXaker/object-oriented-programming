@@ -15,7 +15,15 @@ public class MoveFileCommand : ICommand
 
     public ExecutionResult Execute(IApplicationContext context)
     {
-        context.Fs.MoveFile(_source, _destination);
-        return new ExecutionResult.Success();
+        string source = Path.GetFullPath(_source);
+        string destination = Path.GetFullPath(_destination);
+
+        if (destination.StartsWith(context.ConnectionAddress) && source.StartsWith(context.ConnectionAddress))
+        {
+            context.Fs.MoveFile(_source, _destination);
+            return new ExecutionResult.Success();
+        }
+
+        return new ExecutionResult.Failed("Messed with paths in Move File command");
     }
 }

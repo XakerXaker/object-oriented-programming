@@ -5,7 +5,10 @@ namespace ITMO.ObjectOrientedProgramming.Lab4.ApplicationContexts;
 
 public class MyApplicationContext : IApplicationContext
 {
-    public string ConnectionAddress { get; }
+    private readonly string _connectionAddress;
+
+    // Вернет полный путь, поданный Юзером, под капотом само нормализует под ОС
+    public string ConnectionAddress => Path.GetFullPath(_connectionAddress);
 
     public string CurrentDirectory { get; private set; }
 
@@ -20,7 +23,7 @@ public class MyApplicationContext : IApplicationContext
     public MyApplicationContext(string connectionAddress, string folderIcon, string fileIcon)
     {
         CurrentDirectory = string.Empty;
-        ConnectionAddress = connectionAddress;
+        _connectionAddress = connectionAddress;
         FolderIcon = folderIcon;
         FileIcon = fileIcon;
     }
