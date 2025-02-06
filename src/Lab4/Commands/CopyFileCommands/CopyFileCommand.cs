@@ -1,4 +1,4 @@
-using ITMO.ObjectOrientedProgramming.Lab4.ApplicationContexts;
+using ITMO.ObjectOrientedProgramming.Lab4.FileSystems;
 
 namespace ITMO.ObjectOrientedProgramming.Lab4.Commands.CopyFileCommands;
 
@@ -13,18 +13,8 @@ public class CopyFileCommand : ICommand
         _destination = destination;
     }
 
-    public ExecutionResult Execute(IApplicationContext context)
+    public void Execute(IFileSystem fileSystem)
     {
-        string source = Path.GetFullPath(_source);
-        string destination = Path.GetFullPath(_destination);
-
-        // определяем относительность пути, абсолютные тоже хавает
-        if (destination.StartsWith(context.ConnectionAddress) && source.StartsWith(context.ConnectionAddress))
-        {
-            context.Fs.CopyFile(_source, _destination);
-            return new ExecutionResult.Success();
-        }
-
-        return new ExecutionResult.Failed("Messed with paths in Copy File command");
+        fileSystem.CopyFile(_source, _destination);
     }
 }

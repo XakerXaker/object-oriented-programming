@@ -9,4 +9,8 @@ public interface IFileSystem
     public void CopyFile(string source, string destination);
 
     public void DeleteFile(string path);
+
+    public void ChangeDirectory(string path);
+
+    public string? GetFileContent(string path);
 }

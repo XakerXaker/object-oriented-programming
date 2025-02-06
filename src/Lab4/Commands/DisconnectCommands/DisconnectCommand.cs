@@ -1,15 +1,11 @@
-using ITMO.ObjectOrientedProgramming.Lab4.ApplicationContexts;
+using ITMO.ObjectOrientedProgramming.Lab4.FileSystems;
 
 namespace ITMO.ObjectOrientedProgramming.Lab4.Commands.DisconnectCommands;
 
 public class DisconnectCommand : ICommand
 {
-    public ExecutionResult Execute(IApplicationContext? context)
+    public void Execute(IFileSystem? fileSystem)
     {
-        if (context is null)
-            return new ExecutionResult.Failed("FileSystem is already disconnected");
-
-        context = null;
-        return new ExecutionResult.Success();
+        fileSystem = null;
     }
 }

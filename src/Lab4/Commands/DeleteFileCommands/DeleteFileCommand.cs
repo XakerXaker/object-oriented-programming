@@ -1,4 +1,4 @@
-using ITMO.ObjectOrientedProgramming.Lab4.ApplicationContexts;
+using ITMO.ObjectOrientedProgramming.Lab4.FileSystems;
 
 namespace ITMO.ObjectOrientedProgramming.Lab4.Commands.DeleteFileCommands;
 
@@ -11,15 +11,8 @@ public class DeleteFileCommand : ICommand
         _path = path;
     }
 
-    public ExecutionResult Execute(IApplicationContext context)
+    public void Execute(IFileSystem fileSystem)
     {
-        string path = Path.GetFullPath(_path);
-        if (File.Exists(_path) && path.StartsWith(context.ConnectionAddress))
-        {
-            context.Fs.DeleteFile(_path);
-            return new ExecutionResult.Success();
-        }
-
-        return new ExecutionResult.Failed("Messed with path in Delete File command");
+        fileSystem.DeleteFile(_path);
     }
 }

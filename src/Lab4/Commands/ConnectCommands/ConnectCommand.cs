@@ -1,4 +1,5 @@
-using ITMO.ObjectOrientedProgramming.Lab4.ApplicationContexts;
+using ITMO.ObjectOrientedProgramming.Lab4.FileSystems;
+using ITMO.ObjectOrientedProgramming.Lab4.FileSystems.LocalFileSystems;
 
 namespace ITMO.ObjectOrientedProgramming.Lab4.Commands.ConnectCommands;
 
@@ -13,26 +14,9 @@ public class ConnectCommand : ICommand
         _mode = mode;
     }
 
-    public ExecutionResult Execute(IApplicationContext context)
+    public void Execute(IFileSystem fileSystem)
     {
-        // При попытке подключиться к новой ФС без Disconnect'a от предыдущей ФС
-        if (context is not null)
-        {
-            return new ExecutionResult.Failed("Connect commmand failed");
-        }
-
-        if (_mode != "l")
-        {
-            return new ExecutionResult.Failed("Connect command doesn't support this mode");
-        }
-
-        if (!Path.IsPathRooted(_absolutePath))
-        {
-            return new ExecutionResult.Failed("Connect command require absolute path");
-        }
-
-        context = new MyApplicationContext(_absolutePath, " ", " ");
-
-        return new ExecutionResult.Success();
+        if (_mode == "l")
+            fileSystem = new LocalFileSystem(_absolutePath);
     }
 }

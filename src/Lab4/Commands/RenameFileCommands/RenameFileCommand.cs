@@ -1,4 +1,4 @@
-using ITMO.ObjectOrientedProgramming.Lab4.ApplicationContexts;
+using ITMO.ObjectOrientedProgramming.Lab4.FileSystems;
 
 namespace ITMO.ObjectOrientedProgramming.Lab4.Commands.RenameFileCommands;
 
@@ -13,16 +13,8 @@ public class RenameFileCommand : ICommand
        _name = name;
     }
 
-    public ExecutionResult Execute(IApplicationContext context)
+    public void Execute(IFileSystem fileSystem)
     {
-        string destination = Path.GetFullPath(_path);
-
-        if (destination.StartsWith(context.ConnectionAddress))
-        {
-            context.Fs.RenameFile(destination, _name);
-            return new ExecutionResult.Success();
-        }
-
-        return new ExecutionResult.Failed("Messed with paths in Rename File command");
+        fileSystem.RenameFile(_path, _name);
     }
 }

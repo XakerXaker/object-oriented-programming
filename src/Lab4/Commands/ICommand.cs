@@ -1,8 +1,8 @@
-using ITMO.ObjectOrientedProgramming.Lab4.ApplicationContexts;
+using ITMO.ObjectOrientedProgramming.Lab4.FileSystems;
 
 namespace ITMO.ObjectOrientedProgramming.Lab4.Commands;
 
 public interface ICommand
 {
-    public ExecutionResult Execute(IApplicationContext context);
+    public void Execute(IFileSystem fileSystem);
 }
