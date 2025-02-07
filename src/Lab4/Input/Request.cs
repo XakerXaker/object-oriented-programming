@@ -25,4 +25,9 @@ public class Request
         _position++;
         return _position < Tokens.Length;
     }
+
+    public void Reset()
+    {
+        _position = 0;
+    }
 }

@@ -2,6 +2,8 @@ namespace ITMO.ObjectOrientedProgramming.Lab4.FileSystems;
 
 public interface IFileSystem
 {
+    public string ConnectionPath { get; }
+
     public void RenameFile(string path, string name);
 
     public void MoveFile(string source, string destination);

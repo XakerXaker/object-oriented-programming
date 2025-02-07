@@ -10,7 +10,7 @@ public class ParsingTest
     [Fact]
     public void Parse()
     {
-        var input = new Request("file copy bluh");
+        var input = new Request("file copyd bluhfdsfdfdfd");
         var connect = new ConnectCommandParameterHandler();
         var copyFile = new CopyFileCommandParameterHandler();
         connect.AddNext(copyFile);

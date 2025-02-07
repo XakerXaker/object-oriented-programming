@@ -15,7 +15,10 @@ public class MoveFileCommandParameterHandler : CommandParameterHandler
             return Next?.Handle(input);
 
         if (!input.MoveNext() || input.Current != "move")
+        {
+            input.Reset();
             return Next?.Handle(input);
+        }
 
         input.MoveNext();
         builder.From(input.Current);

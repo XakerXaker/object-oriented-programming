@@ -3,23 +3,23 @@ namespace ITMO.ObjectOrientedProgramming.Lab4.FileSystems.LocalFileSystems;
 public class LocalFileSystem : IFileSystem
 {
     // Теперь это корень
-    private readonly string _connectionPath;
+    public string ConnectionPath { get; }
 
     // Контекст для выполнения команд
     private string _currentDirectory;
 
     public LocalFileSystem(string connectionPath)
     {
-        _connectionPath = Path.GetFullPath(connectionPath);
+        ConnectionPath = Path.GetFullPath(connectionPath);
 
-        _currentDirectory = _connectionPath;
+        _currentDirectory = ConnectionPath;
     }
 
     public bool IsAbsolutePath(string path)
     {
         string fullPath = Path.GetFullPath(path);
 
-        return fullPath.StartsWith(_connectionPath);
+        return fullPath.StartsWith(ConnectionPath);
     }
 
     public bool IsValidPathArgument(string path)
