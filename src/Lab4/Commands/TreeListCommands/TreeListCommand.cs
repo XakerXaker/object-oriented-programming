@@ -25,8 +25,11 @@ public class TreeListCommand : ICommand
 
     public string Name => "Tree list";
 
-    public void Execute(IFileSystem fileSystem)
+    public void Execute(IFileSystem? fileSystem)
     {
+        if (fileSystem is null)
+            return;
+
         var fileSystemComposite = new FileSystemCompositeFactory();
         IFileSystemItem fileSystemItem = fileSystemComposite.Create(fileSystem.ConnectionPath);
         IFileSystemItemVisitor visitor = new ConsoleVisitor(_depth, _intend, _folderSymbol, _fileSymbol);

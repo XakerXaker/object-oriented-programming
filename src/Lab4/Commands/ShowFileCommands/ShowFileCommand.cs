@@ -16,12 +16,12 @@ public class ShowFileCommand : ICommand
 
     public string Name => "File show";
 
-    public void Execute(IFileSystem fileSystem)
+    public void Execute(IFileSystem? fileSystem)
     {
         if (_mode != "console")
             return;
 
-        string? content = fileSystem.GetFileContent(_path);
+        string? content = fileSystem?.GetFileContent(_path);
 
         if (content is not null)
         {

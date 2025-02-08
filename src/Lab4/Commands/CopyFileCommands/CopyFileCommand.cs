@@ -17,6 +17,6 @@ public class CopyFileCommand : ICommand
 
     public void Execute(IFileSystem fileSystem)
     {
-        fileSystem.CopyFile(_source, _destination);
+        fileSystem?.CopyFile(_source, _destination);
     }
 }

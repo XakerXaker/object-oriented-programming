@@ -15,6 +15,6 @@ public class DeleteFileCommand : ICommand
 
     public void Execute(IFileSystem fileSystem)
     {
-        fileSystem.DeleteFile(_path);
+        fileSystem?.DeleteFile(_path);
     }
 }

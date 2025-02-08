@@ -15,8 +15,8 @@ public class RenameFileCommand : ICommand
 
     public string Name => "File rename";
 
-    public void Execute(IFileSystem fileSystem)
+    public void Execute(IFileSystem? fileSystem)
     {
-        fileSystem.RenameFile(_path, _name);
+        fileSystem?.RenameFile(_path, _name);
     }
 }
