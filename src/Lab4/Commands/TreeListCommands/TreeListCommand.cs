@@ -23,6 +23,8 @@ public class TreeListCommand : ICommand
         _fileSymbol = fileSymbol;
     }
 
+    public string Name => "Tree list";
+
     public void Execute(IFileSystem fileSystem)
     {
         var fileSystemComposite = new FileSystemCompositeFactory();

@@ -6,28 +6,20 @@ public class Request
 
     public string[] Tokens { get; }
 
-    private int _position;
-
-    public string Current => Tokens[_position];
-
-    public int Length => _input.Length;
+    public int Length => Tokens.Length;
 
     public Request(string input)
     {
-        _position = 0;
         _input = input;
 
         Tokens = _input.Split(' ');
     }
 
-    public bool MoveNext()
+    public string GetTokenFromIndex(int i)
     {
-        _position++;
-        return _position < Tokens.Length;
-    }
+        if (i >= Length)
+            throw new Exception("Out of range in tokens array");
 
-    public void Reset()
-    {
-        _position = 0;
+        return Tokens[i];
     }
 }

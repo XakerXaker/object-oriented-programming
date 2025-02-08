@@ -7,19 +7,18 @@ namespace ITMO.ObjectOrientedProgramming.Lab4.CommandParameterHandlers.ConnectCo
 
 public class ConnectCommandParameterHandler : CommandParameterHandler
 {
+    private readonly int _numOfTokensRequired = 3;
+    private readonly string _commandName = "Connect";
     private readonly ConnectCommandModeFlagHandler _flagHandler = new ConnectCommandModeFlagHandler();
 
     public override ICommand? Handle(Request input)
     {
-        var builder = new ConnectCommandBuilder();
-
-        if (input.Current != "Connect")
+        if (input.Length != _numOfTokensRequired || input.GetTokenFromIndex(0) != _commandName)
             return Next?.Handle(input);
 
-        string connectionAddress = input.MoveNext() ? input.Current : throw new Exception("Not enough arguments are specified in connect command");
+        string connectionAddress = input.GetTokenFromIndex(1);
 
-        builder = input.MoveNext() ? _flagHandler.Handle(input) : throw new Exception("The connection mode is not specified");
-
+        ConnectCommandBuilder builder = _flagHandler.Handle(input);
         return builder.WithArgument(connectionAddress).Build();
     }
 }

@@ -11,6 +11,8 @@ public class DeleteFileCommand : ICommand
         _path = path;
     }
 
+    public string Name => "Delete";
+
     public void Execute(IFileSystem fileSystem)
     {
         fileSystem.DeleteFile(_path);

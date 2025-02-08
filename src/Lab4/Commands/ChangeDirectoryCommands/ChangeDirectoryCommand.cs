@@ -12,6 +12,8 @@ public class ChangeDirectoryCommand : ICommand
         _path = path;
     }
 
+    public string Name => "Tree goto";
+
     public void Execute(IFileSystem fileSystem)
     {
         fileSystem.ChangeDirectory(_path);

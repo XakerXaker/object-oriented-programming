@@ -1,13 +1,9 @@
-using ITMO.ObjectOrientedProgramming.Lab4.Writter;
-
 namespace ITMO.ObjectOrientedProgramming.Lab4.Commands.ShowFileCommands;
 
 public class ShowFileCommandBuilder : ICommandBuilder
 {
     private string _path = string.Empty;
     private string _mode = string.Empty;
-
-    private IWritter? _writter;
 
     public ShowFileCommandBuilder From(string path)
     {
@@ -18,12 +14,6 @@ public class ShowFileCommandBuilder : ICommandBuilder
     public ShowFileCommandBuilder InMode(string mode)
     {
         _mode = mode;
-        return this;
-    }
-
-    public ShowFileCommandBuilder AddWritter(IWritter writter)
-    {
-        _writter = writter;
         return this;
     }
 
@@ -39,11 +29,6 @@ public class ShowFileCommandBuilder : ICommandBuilder
             throw new Exception();
         }
 
-        if (_writter is null)
-        {
-            throw new Exception();
-        }
-
-        return new ShowFileCommand(_path, _mode, _writter);
+        return new ShowFileCommand(_path, _mode);
     }
 }

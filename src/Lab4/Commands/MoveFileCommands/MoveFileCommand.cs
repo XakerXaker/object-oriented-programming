@@ -13,6 +13,8 @@ public class MoveFileCommand : ICommand
        _destination = destination;
     }
 
+    public string Name => "File move";
+
     public void Execute(IFileSystem fileSystem)
     {
         fileSystem.MoveFile(_source, _destination);

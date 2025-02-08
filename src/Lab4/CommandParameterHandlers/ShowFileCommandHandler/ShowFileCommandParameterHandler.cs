@@ -7,22 +7,21 @@ namespace ITMO.ObjectOrientedProgramming.Lab4.CommandParameterHandlers.ShowFileC
 
 public class ShowFileCommandParameterHandler : CommandParameterHandler
 {
+    private readonly int _numsOfTokenRequired = 3;
+    private readonly string _commandType = "File";
+    private readonly string _commandName = "show";
     private readonly ShowFileCommandFlagHandler _flagHandler = new ShowFileCommandModeFlagHandler();
 
     public override ICommand? Handle(Request input)
     {
         var builder = new ShowFileCommandBuilder();
 
-        if (input.Length < 3 || input.Current != "File")
+        if (input.Length < _numsOfTokenRequired || (input.GetTokenFromIndex(0) != _commandType && input.GetTokenFromIndex(1) != _commandName))
             return Next?.Handle(input);
 
-        if (input.MoveNext() || input.Current != "show")
-            return Next?.Handle(input);
+        string source = input.GetTokenFromIndex(2);
 
-        input.MoveNext();
-        string source = input.Current;
-
-        if (input.MoveNext())
+        if (input.Length > _numsOfTokenRequired)
         {
             builder = _flagHandler.Handle(input);
         }

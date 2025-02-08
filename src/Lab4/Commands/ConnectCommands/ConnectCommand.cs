@@ -14,6 +14,8 @@ public class ConnectCommand : ICommand
         _mode = mode;
     }
 
+    public string Name => "Connect";
+
     public void Execute(IFileSystem fileSystem)
     {
         if (_mode == "l")

@@ -13,6 +13,8 @@ public class CopyFileCommand : ICommand
         _destination = destination;
     }
 
+    public string Name => "File copy";
+
     public void Execute(IFileSystem fileSystem)
     {
         fileSystem.CopyFile(_source, _destination);
