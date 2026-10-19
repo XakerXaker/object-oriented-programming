@@ -2,10 +2,8 @@ namespace ITMO.ObjectOrientedProgramming.Lab4.FileSystems.LocalFileSystems;
 
 public class LocalFileSystem : IFileSystem
 {
-    // Теперь это корень
     public string ConnectionPath { get; }
 
-    // Контекст для выполнения команд
     private string _currentDirectory;
 
     public LocalFileSystem(string connectionPath)
@@ -29,7 +27,6 @@ public class LocalFileSystem : IFileSystem
         return fullPath.StartsWith(_currentDirectory) || IsAbsolutePath(path);
     }
 
-    // Destination is directory
     public void MoveFile(string source, string destination)
     {
         string sourceFilePath = source;
@@ -48,7 +45,6 @@ public class LocalFileSystem : IFileSystem
         }
     }
 
-    // Destination is directory
     public void CopyFile(string source, string destination)
     {
         if (!File.Exists(source) || !IsValidPathArgument(source))

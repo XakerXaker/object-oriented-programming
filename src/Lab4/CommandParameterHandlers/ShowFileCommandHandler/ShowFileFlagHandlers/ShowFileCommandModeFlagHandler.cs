@@ -7,7 +7,6 @@ public class ShowFileCommandModeFlagHandler : ShowFileCommandFlagHandler
 {
     private readonly string _flagName = "-m";
 
-    // private readonly string _flagValue = "console";
     private readonly int _flagNamePosition = 4;
     private readonly int _flagValuePosition = 5;
 

@@ -6,7 +6,6 @@ public class TreeListCommandBuilder : ICommandBuilder
 {
     private int _depth;
 
-    // дефолтные значения, преднастройка
     private string _intend = "->";
     private string _folderSymbol = "Folder";
     private string _fileSymbol = "File";
